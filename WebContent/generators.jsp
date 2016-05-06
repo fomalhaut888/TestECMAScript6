@@ -147,6 +147,48 @@
 	    		yield icons.slice(i, i + rowLength);
 	    	}
     	}
+    	
+    	//5.寫一個過濾器:    	
+    	function* filter(test, iterable){
+    		for(var item of iterable){
+    			if(test(item)){
+    				yield item;
+    			}
+    		}
+    	}
+    	
+    	var obj = {result: true, results: [
+    		{id:1, name:'Kevin',gender: 'M'},
+    		{id:2, name:'Elsa',gender: 'F'},
+    		{id:3, name:'Mary',gender: 'F'},
+    		{id:4, name:'Dorris',gender: 'F'},
+    		{id:5, name:'Simon',gender: 'M'},
+    		{id:6, name:'Ken',gender: 'M'},
+    		{id:7, name:'Candy',gender: 'F'}]};
+    	
+    	var testFemale = function(json){
+    		if(json == undefined || json == null){
+    			return null;
+    		}
+    		if(json.gender != undefined){
+    			if(json.gender == 'F'){
+    				return true;
+    			}else if(json.gender == 'M'){
+    				return false;
+    			}else{
+    				return null;
+    			}
+    		}else{
+    			return null;
+    		}
+    	};
+    	
+    	function showFilter(){
+    		var iter = filter(testFemale, obj.results);
+    		for(var item of iter){
+    			console.debug(item.name);
+    		}
+    	}
     </script>
 </head>
 <body>
@@ -166,5 +208,8 @@
 <br/>
 <br/>
 <input type="button" value="Say 6" onclick="javascript: showArray2();" />
+<br/>
+<br/>
+<input type="button" value="Say 7" onclick="javascript: showFilter();" />
 </body>
 </html>
