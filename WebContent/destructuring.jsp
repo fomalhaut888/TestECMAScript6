@@ -6,6 +6,8 @@
 	<meta charset="utf-8">
 	<title>Insert title here</title>
 	<script type="text/javascript">
+		var iter;
+	
 		function initDoc(){
 			console.debug("Destructuring(解構)!!!");
 			//解构赋值允许你使用类似数组或对象字面量的语法将数组和对象的属性赋给各种变量。
@@ -120,6 +122,57 @@
 		    console.log("x=" + x);
 		    var { y = 3 } = {y:4};
 		    console.log("y=" + y);
+		    
+		    //12. 註.review generator執行
+		    //(1) 給定iterator,並未開始執行generator的命令.
+		    //(2) 執行iterator的next方法之後,則開始執行generator命令至第一次yield命令回傳值後暫停.
+		    //(3) 再執行第二次next方法後, 繼續第一次yield命令之後的命令, 至第二次yield命令回傳值後暫停.
+		    //(4) 以此重覆進行
+		    //setTimeout(tryFibs, 10000);
+		    iter = fibs();
+		    console.log("fibs generator given!");
+		    setTimeout(tryFibs, 10000);
+		    
+		    //13. 註.review generator執行again
+		    //(1) 給定iterator,並未開始執行generator的命令.
+		    //(2) 執行第一次next, 則開始執行generator命令至第一個yield命令回傳值後暫停.
+		    //(3) 執行第二次next, 則開始執行generator命令至第二個yield命令回傳值後暫停.
+		    //(4) 執行第三次next, 則開始執行generator命令至第三個yield命令回傳值後暫停.
+		    //(5) 執行第四次next, 則generator命令已結束沒有yield命令, 則回傳undefined.
+		    //(6) 此後執行的next, 均回傳undefined
+		    var iter2 = generator2();
+		    var g = iter2.next();
+		    console.log('g=' + g.value);
+		    g = iter2.next();
+		    console.log('g=' + g.value);
+		    g = iter2.next();
+		    console.log('g=' + g.value);
+		    g = iter2.next();
+		    console.log('g=' + g.value);//undefined
+		    g = iter2.next();
+		    console.log('g=' + g.value);//undefined
+		    
+		  	//14. 註.review generator執行again again
+		  	//解構元素個數超過generator yield的次數
+		  	var [g1, g2, g3, g4, g5] = generator2();
+		  	console.log('g1=' + g1);
+		  	console.log('g2=' + g2);
+		  	console.log('g3=' + g3);
+		  	console.log('g4=' + g4);
+		  	console.log('g5=' + g5);
+		}
+			
+		function tryFibs(){
+			//var iter = fibs();
+	    	//var k = iter.next();
+	    	//console.log("k=" + k.value);
+	    	//k = iter.next();
+	    	//console.log("k=" + k.value);
+			var k = iter.next();
+			console.log("k=" + k.value);
+			if(k.value < 10000){
+				setTimeout(tryFibs, 5000);
+			}
 		}
 		
 		function* fibs(){//ex.費氏數列
@@ -130,10 +183,17 @@
 				i++;
 				console.log('i=' + i);
 				yield a;
+				console.log('####################');
 				[a, b] = [b, a + b];
 			}
 		}
 		
+		function* generator2(){
+			var [a, b, c] = [1, 2, 3];
+			yield a;
+			yield b;
+			yield c;
+		}
 	</script>
 </head>
 <body onload="initDoc()">
