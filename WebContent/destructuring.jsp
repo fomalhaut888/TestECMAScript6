@@ -124,6 +124,7 @@
 		    console.log("y=" + y);
 		    
 		    //12. 註.review generator執行
+		    //12.1 generator的執行細節
 		    //(1) 給定iterator,並未開始執行generator的命令.
 		    //(2) 執行iterator的next方法之後,則開始執行generator命令至第一次yield命令回傳值後暫停.
 		    //(3) 再執行第二次next方法後, 繼續第一次yield命令之後的命令, 至第二次yield命令回傳值後暫停.
@@ -133,7 +134,7 @@
 		    console.log("fibs generator given!");
 		    setTimeout(tryFibs, 10000);
 		    
-		    //13. 註.review generator執行again
+		    //12.2 generator呼叫超過回傳次數
 		    //(1) 給定iterator,並未開始執行generator的命令.
 		    //(2) 執行第一次next, 則開始執行generator命令至第一個yield命令回傳值後暫停.
 		    //(3) 執行第二次next, 則開始執行generator命令至第二個yield命令回傳值後暫停.
@@ -152,14 +153,96 @@
 		    g = iter2.next();
 		    console.log('g=' + g.value);//undefined
 		    
-		  	//14. 註.review generator執行again again
+		  	//12.3 generator解構超過回傳次數
 		  	//解構元素個數超過generator yield的次數
 		  	var [g1, g2, g3, g4, g5] = generator2();
 		  	console.log('g1=' + g1);
 		  	console.log('g2=' + g2);
 		  	console.log('g3=' + g3);
-		  	console.log('g4=' + g4);
-		  	console.log('g5=' + g5);
+		  	console.log('g4=' + g4);//undefined
+		  	console.log('g5=' + g5);//undefined
+		  	
+		  	//13. 解構的實際應用
+		  	//13.1 函数参数定义
+		  	//避免让API使用者记住 多个参数的使用顺序。
+		  	console.log('y=' + f1({p1: 'A', p2: 'B', p3: 'C'}));
+		  	console.log('y=' + f1({p2: 'B', p3: 'C', p1: 'A'}));
+		  	
+		  	//13.2 配置对象参数
+		  	//可以给需要解构的对象属性赋予默认值。
+		  	//可以避免对配置对象的每个属性都重复var foo = config.foo || theDefaultFoo;这样的操作
+		  	//??对象的默认值简写语法仍未在Firefox中实现? to check!
+		  	console.log('y=' + f2({p1: 'D', p2: 'E', p3: 'F'}));
+		  	console.log('y=' + f2({}));
+		  	console.log('y=' + f2({p2: 'G'}));
+		  	
+		  	//13.3 与ES6迭代器协议协同使用
+		  	var map = new Map();
+		  	map.set(window, "the global");
+		  	map.set(document, "the document");
+		  	for (var [key, value] of map) {
+		  		console.log(key + " is " + value);
+		  	}
+		  	//結果:
+		 	// "[object Window] is the global"
+		    // "[object HTMLDocument] is the document"
+		    for (var [key] of map) {
+		    	console.log('key=' + key);
+		    }
+		    for (var [, value] of map) {
+		    	console.log('value=' + value);
+		    }
+		    
+		    //13.4 多重返回值
+		    //JavaScript语言中尚未整合多重返回值的特性，
+		 	//但是无须多此一举，因为你自己就可以返回一个数组并将结果解构
+		 	//这两个模式都比额外保存一个临时变量或使用CPS变换要好得多。
+		 	//function returnMultipleValues() {
+      			//return {
+        			//foo: 1,
+        			//bar: 2
+      			//};
+    		//}
+    		//var temp = returnMultipleValues();
+    		//var foo = temp.foo;
+    		//var bar = temp.bar;
+    		//function returnMultipleValues(k) {
+      			//k(1, 2);
+    		//}
+    		//returnMultipleValues((foo, bar) => ...);
+		    var [foo, bar] = returnMultipleValues1();
+		    console.log('foo=' + foo);
+		    console.log('bar=' + bar);
+		    var { foo, bar } = returnMultipleValues2();
+		    console.log('foo=' + foo);
+		    console.log('bar=' + bar);
+		    
+		    //13.5 使用解构导入部分CommonJS模块
+		    //Node应用由模块组成，采用CommonJS模块规范。
+		    //require方法用于加载模块。
+		    //const { SourceMapConsumer, SourceNode } = require("source-map");
+		    //TO SEE
+		}
+			
+		function returnMultipleValues1() {
+			return [1, 2];
+		}
+		
+		function returnMultipleValues2() {
+			return {
+				foo: 1,
+				bar: 2
+			};
+		}
+			
+		function f2({p1 = 'A',
+					 p2 = 'B',
+					 p3 = 'C',}){
+			return 'p1=' + p1 + ', p2=' + p2 + ', p3=' + p3;
+		}
+			
+		function f1({p1, p2, p3}){
+			return 'p1=' + p1 + ', p2=' + p2 + ', p3=' + p3;
 		}
 			
 		function tryFibs(){
