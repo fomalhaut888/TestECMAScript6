@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	var desserts = new Set("1234");//this contructor will parse this string into 4 separate strings.
+	console.debug("After new, desserts.size=" + desserts.size);
+	desserts.add("1");
+	console.debug("After adding 1 of string, desserts.size=" + desserts.size);
+	console.debug("desserts=" + desserts);
+	desserts.add(1);
+	console.debug("After adding 1 of number, desserts.size=" + desserts.size);
+	desserts.add(1);
+	console.debug("After adding 1 of number, desserts.size=" + desserts.size);
+	desserts.add("23");
+	console.debug("After adding 23 of string, desserts.size=" + desserts.size);
+	desserts.add("1234");
+	console.debug("After adding 1234 of string, desserts.size=" + desserts.size);
+	desserts.forEach(function(value){
+		console.debug(value + "(" + typeof value + ")");
+	});
+	//Set
+	//console.debug("desserts.indexOf(\"1\"): " + desserts.indexOf("1"));//Uncaught TypeError: desserts.indexOf is not a function
+	console.debug("desserts.has(\"1\"): " + desserts.has("1"));
+	console.debug("desserts.has(1): " + desserts.has(1));
+	console.debug("desserts.has(\"2\"): " + desserts.has("2"));
+	console.debug("desserts.has(2): " + desserts.has(2));
+	console.debug("desserts[0]: " + desserts[0]);//undefined
+	console.debug("desserts[1]: " + desserts[1]);//undefined
+	console.debug("desserts[2]: " + desserts[2]);//undefined
+	//array
+	var arr = ["1", 1, "2"];
+	//console.debug("arr.has(\"1\"): " + arr.has("1"));//Uncaught TypeError: arr.has is not a function
+	console.debug("arr.indexOf(\"1\"): " + arr.indexOf("1"));
+	console.debug("arr.indexOf(1): " + arr.indexOf(1));
+	console.debug("arr.indexOf(\"2\"): " + arr.indexOf("2"));
+	console.debug("arr.indexOf(2): " + arr.indexOf(2));
+	console.debug("arr[0]: " + arr[0] + "(" + typeof arr[0] + ")");
+	console.debug("arr[1]: " + arr[1] + "(" + typeof arr[1] + ")");
+	console.debug("arr[2]: " + arr[2] + "(" + typeof arr[2] + ")");
+</script>
+</head>
+<body>
+</body>
+</html>
