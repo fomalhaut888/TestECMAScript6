@@ -20,15 +20,18 @@
 	desserts.forEach(function(value){
 		console.debug(value + "(" + typeof value + ")");
 	});
+	console.debug("####################################################################");
 	//Set
 	//console.debug("desserts.indexOf(\"1\"): " + desserts.indexOf("1"));//Uncaught TypeError: desserts.indexOf is not a function
 	console.debug("desserts.has(\"1\"): " + desserts.has("1"));
 	console.debug("desserts.has(1): " + desserts.has(1));
 	console.debug("desserts.has(\"2\"): " + desserts.has("2"));
 	console.debug("desserts.has(2): " + desserts.has(2));
+	//Set不支持索引
 	console.debug("desserts[0]: " + desserts[0]);//undefined
 	console.debug("desserts[1]: " + desserts[1]);//undefined
 	console.debug("desserts[2]: " + desserts[2]);//undefined
+	console.debug("####################################################################");
 	//array
 	var arr = ["1", 1, "2"];
 	//console.debug("arr.has(\"1\"): " + arr.has("1"));//Uncaught TypeError: arr.has is not a function
@@ -39,6 +42,43 @@
 	console.debug("arr[0]: " + arr[0] + "(" + typeof arr[0] + ")");
 	console.debug("arr[1]: " + arr[1] + "(" + typeof arr[1] + ")");
 	console.debug("arr[2]: " + arr[2] + "(" + typeof arr[2] + ")");
+	console.debug("####################################################################");
+	var set1 = new Set();
+	var set2 = new Set("忠孝仁愛信義和平");//引數為可遍历数据(iterable)
+	var set3 = new Set(["禮","義","廉","恥"]);
+	//var set4 = new Set(1234);//Uncaught TypeError: undefined is not a function
+	var set4 = new Set([1,2,3,4]);
+	var set5 = new Set(set2);
+	console.debug("$$$$$");
+	console.log("set1=" + set1);
+	set1.forEach(function(v, i){
+		console.debug("set1[" + i + "]. " + v + "(" + typeof v + ")");
+	});
+	console.debug("set1.size=" + set1.size);
+	console.debug("$$$$$");
+	console.log("set2" + set2);
+	set2.forEach(function(v, i){
+		console.debug("set2[" + i + "]. " + v + "(" + typeof v + ")");
+	});
+	console.debug("set2.size=" + set2.size);
+	console.debug("$$$$$");
+	console.log("set3" + set3);
+	set3.forEach(function(v, i){
+		console.debug("set3[" + i + "]. " + v + "(" + typeof v + ")");
+	});
+	console.debug("set3.size=" + set3.size);
+	console.debug("$$$$$");
+	console.log("set4" + set4);
+	set4.forEach(function(v, i){
+		console.debug("set4[" + i + "]. " + v + "(" + typeof v + ")");
+	});
+	console.debug("set4.size=" + set4.size);
+	console.debug("$$$$$");
+	console.log("set5" + set5);
+	set5.forEach(function(v, i){
+		console.debug("set5[" + i + "]. " + v + "(" + typeof v + ")");
+	});
+	console.debug("set5.size=" + set5.size);
 </script>
 </head>
 <body>
